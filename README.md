@@ -18,9 +18,7 @@ Zkrypt是一个开源的C语言零知识证明算法库，旨在向用户提供�
 
 零知识证明通常是指一种方法，其中的一个参与方（证明者）可以向另一方（验证者）证明某一论断为真（例如：拥有某一数学问题的一组解），而不泄露关于“此论断为真”以外的任何信息。注意到在此例子中，一个朴素的证明方法就是直接公开拥有的解，因此难点是在不泄露任何关于解的信息的同时实现证明。
 
-目前已有的零知识证明协议大多具有如下形式：对于某个问题![](http://latex.codecogs.com/gif.latex?P)。
-和值![](http://latex.codecogs.com/gif.latex?y)。
-，证明者拥有![](http://latex.codecogs.com/gif.latex?x)。使得![](http://latex.codecogs.com/gif.latex?P(x)=y)。证明者利用![](http://latex.codecogs.com/gif.latex?x)。计算出一组数据（证明）并交给验证者验证，如果验证者证实这些数据确实满足协议中给出的特定关系（通常是一组等式），则验证者相信证明者确实拥有![](http://latex.codecogs.com/gif.latex?x)使得![](http://latex.codecogs.com/gif.latex?P(x)=y)。
+目前已有的零知识证明协议大多具有如下形式：对于某个问题![](http://latex.codecogs.com/gif.latex?P)和值![](http://latex.codecogs.com/gif.latex?y)，证明者拥有![](http://latex.codecogs.com/gif.latex?x)使得![](http://latex.codecogs.com/gif.latex?P(x)=y)。证明者利用![](http://latex.codecogs.com/gif.latex?x)计算出一组数据（证明）并交给验证者验证，如果验证者证实这些数据确实满足协议中给出的特定关系（通常是一组等式），则验证者相信证明者确实拥有![](http://latex.codecogs.com/gif.latex?x)使得![](http://latex.codecogs.com/gif.latex?P(x)=y)。
 
 零知识证明协议必须满足以下性质：
 
