@@ -1,37 +1,31 @@
-## Welcome to GitHub Pages
+### 关于Zkrypt
 
-You can use the [editor on GitHub](https://github.com/guanzhi/zkrypt/edit/main/README.md) to maintain and preview the content for your website in Markdown files.
+Zkrypt是一个开源的C语言零知识证明算法库，旨在向用户提供简洁、高效的非交互式零知识证明协议接口，用户可以通过调用接口实现完整的零知识证明协议的流程，包括公共参数设置、证明生成和验证等步骤。
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+本项目由北京大学关志的密码学研究组开发维护。
 
-### Markdown
+### 特性
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+- 支持多种零知识证明协议（包括Groth16, Plonk等）
+- 通过算法优化提供零知识证明协议的高效实现
+- 支持包括BN254、BLS381等在内的多种主流曲线，特别地支持国密SM2、SM9等算法中的推荐曲线，可与国密算法兼容
+- 支持X86、ARM等硬件运行环境及Linux、Windows、Mac、Android等软件运行环境
 
-```markdown
-Syntax highlighted code block
+### 时间线
 
-# Header 1
-## Header 2
-### Header 3
+2021年7月5日：1.0版本开发完成
 
-- Bulleted
-- List
+### 零知识证明
 
-1. Numbered
-2. List
+零知识证明通常是指一种方法，其中的一个参与方（证明者）可以向另一方（验证者）证明某一论断为真（例如：拥有某一数学问题的一组解），而不泄露关于“此论断为真”以外的任何信息。注意到在此例子中，一个朴素的证明方法就是直接公开拥有的解，因此难点是在不泄露任何关于解的信息的同时实现证明。
 
-**Bold** and _Italic_ and `Code` text
+目前已有的零知识证明协议大多具有如下形式：对于某个问题$P$和值$y$，证明者拥有$x$使得$P(x)=y$。证明者利用$x$计算出一组数据（证明）并交给验证者验证，如果验证者证实这些数据确实满足协议中给出的特定关系（通常是一组等式），则验证者相信证明者确实拥有$x$使得$P(x)=y$。
 
-[Link](url) and ![Image](src)
-```
+零知识证明协议必须满足以下性质：
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+1. 完整性：如果$P(x)=y$，则证明者使用$x$生成的证明总应该被接受；
+2. 可靠性：对于任何不满足$P(x)=y$的$x$，证明者使用$x$生成的证明最多以一个小概率$\rho$被接受（这使得验证者可以通过多次要求证明的方式鉴别虚假的证明者）；
+3. 零知识：验证者不能从证明中获得关于$x$的任何信息。
 
-### Jekyll Themes
+如果在一个零知识证明协议中，证明者仅需要向验证者发送证明数据，则称该协议是非交互式的（否则称为交互式的；交互式协议一般需要证明者和验证者之间传输若干随机数）。在本项目中实现的协议均为非交互式的。
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/guanzhi/zkrypt/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
