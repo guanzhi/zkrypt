@@ -1,5 +1,16 @@
-#ifndef ZCRYPT_PLONK_H
-#define ZCRYPT_PLONK_H
+/*
+ *  Copyright 2021 The ZKrypt Project. All Rights Reserved.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License"); you may
+ *  not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ */
+
+
+#ifndef ZKRYPT_PLONK_H
+#define ZKRYPT_PLONK_H
 
 #include <stdio.h>
 #include <string.h>

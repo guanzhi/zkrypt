@@ -1,0 +1,3 @@
+/Users/guanzhi/code/github/zkrypt/build/CMakeFiles/rebuild_cache.dir
+/Users/guanzhi/code/github/zkrypt/build/CMakeFiles/edit_cache.dir
+/Users/guanzhi/code/github/zkrypt/build/CMakeFiles/zkrypt.dir

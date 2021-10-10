@@ -1,11 +1,22 @@
+/*
+ *  Copyright 2021 The ZKrypt Project. All Rights Reserved.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License"); you may
+ *  not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
-#include "sha2.h"
+#include <gmssl/sha2.h>
 #include "bn254.h"
 #include "plonk.h"
 #include "bn254_test.h"
+
 
 void plonk_generate_crs(affine_point_t *CRS, const fn_t s, int n)
 {
