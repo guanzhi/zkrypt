@@ -29,9 +29,9 @@ Zkrypt是一个开源的C语言零知识证明算法库，旨在向用户提供�
 
 此处以一个具体实例展示本算法库提供的各个接口功能与输出示例。
 
-问题：$x^2+y^2=z^2$
+问题：![](http://latex.codecogs.com/gif.latex?x^2+y^2=z^2)
 
-证明者拥有的解：$(x,y,z)=(3,4,5)$
+证明者拥有的解：![](http://latex.codecogs.com/gif.latex?(x,y,z)=(3,4,5))
 
 使用协议：Plonk算法
 
