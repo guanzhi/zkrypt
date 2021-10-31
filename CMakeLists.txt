@@ -12,11 +12,31 @@ add_library(
 	zkrypt
 	SHARED
 
-	lib/bn254.c
-	lib/bn254_params.c
-	lib/plonk.c
+	src/bn254.c
+	src/bn254_params.c
+	src/plonk.c
 )
 
 SET_TARGET_PROPERTIES(zkrypt PROPERTIES VERSION 1.0 SOVERSION 1)
 
+INSTALL(TARGETS zkrypt LIBRARY DESTINATION lib)
 
+
+# tests
+enable_testing()
+
+add_executable(plonk_test tests/plonk_test.c)
+
+target_link_libraries (plonk_test LINK_PUBLIC zkrypt)
+
+target_link_libraries (plonk_test LINK_PUBLIC gmssl)
+
+add_executable(bn254_test tests/plonk_test.c)
+
+target_link_libraries (bn254_test LINK_PUBLIC zkrypt)
+
+target_link_libraries (bn254_test LINK_PUBLIC gmssl)
+
+add_test(NAME plonk_test		COMMAND plonk_test)
+
+add_test(NAME bn254_test		COMMAND bn254_test)

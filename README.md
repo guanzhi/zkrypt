@@ -84,3 +84,86 @@ proof:
 ```c
 verify: passed
 ```
+
+
+### 编译及使用
+
+使用本算法库需要安装gmssl-v3或者gmssl。
+
+#### 编译
+
+```
+gmssl@ubuntu:~/zkrypt$ mkdir build
+gmssl@ubuntu:~/zkrypt$ cd build/
+gmssl@ubuntu:~/zkrypt/build$ cmake ..
+-- The C compiler identification is GNU 7.5.0
+-- The CXX compiler identification is GNU 7.5.0
+-- Check for working C compiler: /usr/bin/cc
+-- Check for working C compiler: /usr/bin/cc -- works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Check for working CXX compiler: /usr/bin/c++
+-- Check for working CXX compiler: /usr/bin/c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/gmssl/zkrypt/build
+gmssl@ubuntu:~/zkrypt/build$ make
+Scanning dependencies of target zkrypt
+[ 12%] Building C object CMakeFiles/zkrypt.dir/src/bn254.c.o
+[ 25%] Building C object CMakeFiles/zkrypt.dir/src/bn254_params.c.o
+[ 37%] Building C object CMakeFiles/zkrypt.dir/src/plonk.c.o
+[ 50%] Linking C shared library lib/libzkrypt.so
+[ 50%] Built target zkrypt
+Scanning dependencies of target plonk_test
+[ 62%] Building C object CMakeFiles/plonk_test.dir/tests/plonk_test.c.o
+[ 75%] Linking C executable bin/plonk_test
+[ 75%] Built target plonk_test
+Scanning dependencies of target bn254_test
+[ 87%] Building C object CMakeFiles/bn254_test.dir/tests/plonk_test.c.o
+[100%] Linking C executable bin/bn254_test
+[100%] Built target bn254_test
+```
+
+#### 安装
+
+运行make install即可安装至系统lib目录下
+```
+gmssl@ubuntu:~/zkrypt/build$ sudo make install
+[sudo] password for gmssl: 
+[ 50%] Built target zkrypt
+[ 75%] Built target plonk_test
+[100%] Built target bn254_test
+Install the project...
+-- Install configuration: ""
+-- Installing: /usr/local/lib/libzkrypt.so.1.0
+-- Up-to-date: /usr/local/lib/libzkrypt.so.1
+-- Up-to-date: /usr/local/lib/libzkrypt.so
+gmssl@ubuntu:~/zkrypt/build$ sudo ldconfig
+```
+
+
+#### 测试
+
+运行make test可以查看测试样例的执行效果
+
+```
+gmssl@ubuntu:~/zkrypt/build$ make test
+Running tests...
+Test project /home/gmssl/zkrypt/build
+    Start 1: plonk_test
+1/2 Test #1: plonk_test .......................   Passed    0.20 sec
+    Start 2: bn254_test
+2/2 Test #2: bn254_test .......................   Passed    0.20 sec
+
+100% tests passed, 0 tests failed out of 2
+
+Total Test time (real) =   0.40 sec
+gmssl@ubuntu:~/zkrypt/build$ 
+```
+
