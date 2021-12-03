@@ -219,8 +219,8 @@ int plonk_proof(
 	printf("Round 2\n");
 
 	/*
-	beta = Hash(A, B, C, H)
-	gamma = Hash(A, B, C, H, beta)
+	beta = Hash(A, B, C)
+	gamma = Hash(A, B, C, beta)
 
 	论文中的 (w_i)_{i in [l]} 是 [1, w, w^2, ...] ?
 	*/
@@ -230,6 +230,7 @@ int plonk_proof(
 	point_to_bytes(C, buf); sha256_update(&ctx, buf, 64);
 	sha256_finish(&ctx, buf);
 	fn_from_bytes(beta, buf);
+	beta[7] &= 0x1fffffff;
 
 	sha256_init(&ctx);
 	point_to_bytes(A, buf); sha256_update(&ctx, buf, 64);
@@ -238,10 +239,11 @@ int plonk_proof(
 	fn_to_bytes(beta, buf); sha256_update(&ctx, buf, 32);
 	sha256_finish(&ctx, buf);
 	fn_from_bytes(gamma, buf);
+	gamma[7] &= 0x1fffffff;
 	
 	// constant_sage
-	fn_from_hex(beta, sage_hex_beta);
-	fn_from_hex(gamma, sage_hex_gamma);
+	//fn_from_hex(beta, sage_hex_beta);
+	//fn_from_hex(gamma, sage_hex_gamma);
 
 	fn_print("beta = ", beta);
 	fn_print("gamma = ", gamma);
@@ -352,8 +354,10 @@ int plonk_proof(
 	point_to_bytes(Z, buf); sha256_update(&ctx, buf, 64);
 	sha256_finish(&ctx, buf);
 	fn_from_bytes(alpha, buf);
+	alpha[7] &= 0x1fffffff;
+	
 	// constant_sage
-	fn_from_hex(alpha, sage_hex_alpha);
+	//fn_from_hex(alpha, sage_hex_alpha);
 	fn_print(" alpha = ", alpha);
 
 	/*
@@ -374,7 +378,7 @@ int plonk_proof(
 	poly_add(t, &t_len, t, t_len, r, r_len);
 	poly_mul(r, &r_len, qO, n, c, c_len);
 	poly_add(t, &t_len, t, t_len, r, r_len);
-	//poly_add(t, &t_len, t, t_len, PI, n); // FIXME: how to handle PI ?
+	poly_add(t, &t_len, t, t_len, PI, n);
 	poly_add(t, &t_len, t, t_len, qC, n);
 
 	poly_div_ZH(t, &t_len, t, t_len, n);
@@ -454,7 +458,7 @@ int plonk_proof(
 	poly_sub_scalar(r, &r_len, z, z_len, e1);
 	poly_mul(r, &r_len, r, r_len, L1, n);
 	fn_sqr(e1, alpha);
-	poly_mul_scalar(r, &r_len, r, r_len, e1); // FIXME: 这里怎么没用L1(X)?
+	poly_mul_scalar(r, &r_len, r, r_len, e1);
 	poly_div_ZH(r, &r_len, r, r_len, n);
 	poly_print(" t(x) part-4", r, r_len);
 
@@ -493,8 +497,10 @@ int plonk_proof(
 	point_to_bytes(T_hi, buf); sha256_update(&ctx, buf, 64);
 	sha256_finish(&ctx, buf);
 	fn_from_bytes(xi, buf);
+	xi[7] &= 0x1fffffff;
+	
 	// constant_sage
-	fn_from_hex(xi, sage_hex_xi);
+	//fn_from_hex(xi, sage_hex_xi);
 	fn_print(" xi        = ", xi);
 
 
@@ -610,29 +616,31 @@ int plonk_proof(
 	printf("\nRound 5\n");
 
 	/*
-	v = Hash(A, B, C, Z, T,
-		_a, _b, _c, _s_sigma1, _s_sigma2, _z_w,
-		T_lo, T_mid, T_hi, _r)
+	v = Hash(A, B, C, Z, T_lo, T_mid, T_hi,
+		_a, _b, _c, _s_sigma1, _s_sigma2, _z_w, _t, _r)
 	*/
 	sha256_init(&ctx);
 	point_to_bytes(A, buf); sha256_update(&ctx, buf, 64);
 	point_to_bytes(B, buf); sha256_update(&ctx, buf, 64);
 	point_to_bytes(C, buf); sha256_update(&ctx, buf, 64);
 	point_to_bytes(Z, buf); sha256_update(&ctx, buf, 64);
+	point_to_bytes(T_lo, buf); sha256_update(&ctx, buf, 64);
+	point_to_bytes(T_mid, buf); sha256_update(&ctx, buf, 64);
+	point_to_bytes(T_hi, buf); sha256_update(&ctx, buf, 64);
 	fn_to_bytes(_a, buf); sha256_update(&ctx, buf, 32);
 	fn_to_bytes(_b, buf); sha256_update(&ctx, buf, 32);
 	fn_to_bytes(_c, buf); sha256_update(&ctx, buf, 32);
 	fn_to_bytes(_s_sigma1, buf); sha256_update(&ctx, buf, 32);
 	fn_to_bytes(_s_sigma2, buf); sha256_update(&ctx, buf, 32);
 	fn_to_bytes(_z_w, buf); sha256_update(&ctx, buf, 32);
-	point_to_bytes(T_lo, buf); sha256_update(&ctx, buf, 64);
-	point_to_bytes(T_mid, buf); sha256_update(&ctx, buf, 64);
-	point_to_bytes(T_hi, buf); sha256_update(&ctx, buf, 64);
+	fn_to_bytes(_t, buf); sha256_update(&ctx, buf, 32);
 	fn_to_bytes(_r, buf); sha256_update(&ctx, buf, 32);
 	sha256_finish(&ctx, buf);
 	fn_from_bytes(v, buf);
+	v[7] &= 0x1fffffff;
+	
 	// constant_sage
-	fn_from_hex(v, sage_hex_v);
+	//fn_from_hex(v, sage_hex_v);
 	fn_print(" v = ", v);
 
 
@@ -738,10 +746,10 @@ int plonk_proof(
 	fn_print(   " _c        = ", _c);
 	fn_print(   " _s_sigma1 = ", _s_sigma1);
 	fn_print(   " _s_sigma2 = ", _s_sigma2);
-	fn_print(   " _r        = ", _r);
 	fn_print(   " _z_w      = ", _z_w);
+	fn_print(   " _t        = ", _t);
+	fn_print(   " _r        = ", _r);
 
 	// FIXME: 输入错误数据，无法证明，返回 -1
 	return 1;
 }
-
